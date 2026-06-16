@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { type ReactNode } from "react";
+import { springSnappy } from "@/lib/motion";
 
 type ButtonProps = {
   href: string;
@@ -10,11 +14,12 @@ type ButtonProps = {
 
 const variants = {
   primary:
-    "bg-brand-orange text-white hover:bg-brand-orange-dark shadow-sm",
+    "bg-brand-orange text-white hover:bg-brand-orange-dark shadow-sm hover:shadow-md",
   secondary:
-    "bg-brand-navy text-white hover:bg-brand-navy-light shadow-sm",
+    "bg-brand-navy text-white hover:bg-brand-navy-light shadow-sm hover:shadow-md",
   outline:
-    "border-2 border-brand-navy text-brand-navy hover:bg-brand-navy hover:text-white",
+    // Keep outline flexible: callers can override hover styles safely.
+    "border-2 border-brand-navy text-brand-navy bg-transparent hover:bg-brand-navy/10",
 };
 
 export function Button({
@@ -24,11 +29,18 @@ export function Button({
   className = "",
 }: ButtonProps) {
   return (
-    <Link
-      href={href}
-      className={`inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors ${variants[variant]} ${className}`}
+    <motion.div
+      whileHover={{ scale: 1.04, y: -1 }}
+      whileTap={{ scale: 0.97 }}
+      transition={springSnappy}
+      className="inline-flex"
     >
-      {children}
-    </Link>
+      <Link
+        href={href}
+        className={`inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors duration-300 ${variants[variant]} ${className}`}
+      >
+        {children}
+      </Link>
+    </motion.div>
   );
 }

@@ -1,3 +1,8 @@
+"use client";
+
+import { type ReactNode } from "react";
+import { Reveal } from "@/components/motion/Reveal";
+
 type SectionHeadingProps = {
   eyebrow?: string;
   title: string;
@@ -29,5 +34,13 @@ export function SectionHeading({
         </p>
       )}
     </div>
+  );
+}
+
+export function AnimatedSectionHeading(props: SectionHeadingProps) {
+  return (
+    <Reveal direction="up">
+      <SectionHeading {...props} />
+    </Reveal>
   );
 }
