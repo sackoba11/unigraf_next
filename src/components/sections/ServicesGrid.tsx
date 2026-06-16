@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { services } from "@/data/site";
 import { Container } from "@/components/ui/Container";
@@ -30,35 +31,35 @@ export function ServicesGrid() {
         <Stagger className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {services.map((service) => (
             <StaggerItem key={service.title}>
-              <motion.article
-                className="group h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
-                whileHover={
-                  reduced
-                    ? undefined
-                    : { y: -6, boxShadow: "0 20px 40px -12px rgba(12,35,64,0.15)" }
-                }
-                transition={{ duration: 0.3 }}
-              >
-                <motion.span
-                  className="inline-block text-3xl"
-                  aria-hidden
-                  whileHover={reduced ? undefined : { scale: 1.2, rotate: 5 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
-                  {icons[service.icon]}
-                </motion.span>
-                <h3 className="mt-4 text-lg font-semibold text-brand-navy transition-colors group-hover:text-brand-orange">
-                  {service.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                  {service.description}
-                </p>
-                <motion.div
-                  className="mt-4 h-0.5 w-0 rounded-full bg-brand-orange"
-                  whileHover={reduced ? undefined : { width: "3rem" }}
+              <Link href={service.href} className="block h-full">
+                <motion.article
+                  className="group h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+                  whileHover={
+                    reduced
+                      ? undefined
+                      : { y: -6, boxShadow: "0 20px 40px -12px rgba(12,35,64,0.15)" }
+                  }
                   transition={{ duration: 0.3 }}
-                />
-              </motion.article>
+                >
+                  <motion.span
+                    className="inline-block text-3xl"
+                    aria-hidden
+                    whileHover={reduced ? undefined : { scale: 1.2, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
+                    {icons[service.icon]}
+                  </motion.span>
+                  <h3 className="mt-4 text-lg font-semibold text-brand-navy transition-colors group-hover:text-brand-orange">
+                    {service.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                    {service.description}
+                  </p>
+                  <span className="mt-4 inline-block text-sm font-semibold text-brand-orange">
+                    En savoir plus →
+                  </span>
+                </motion.article>
+              </Link>
             </StaggerItem>
           ))}
         </Stagger>

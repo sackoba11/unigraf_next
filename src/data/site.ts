@@ -57,34 +57,31 @@ export const mainNavigation: NavItem[] = [
   },
   {
     label: "Services",
-    href: "#",
-    disabled: true,
+    href: "/services",
     children: [
-      { label: "Impression", href: "#", disabled: true },
-      { label: "Décoration", href: "#", disabled: true },
-      { label: "Personnalisation", href: "#", disabled: true },
+      { label: "Impression", href: "/services/impression" },
+      { label: "Décoration", href: "/services/decoration" },
+      { label: "Personnalisation", href: "/services/personnalisation" },
     ],
   },
   {
     label: "Réalisations",
-    href: "#",
-    disabled: true,
+    href: "/realisations",
     children: [
-      { label: "Véhicules", href: "#", disabled: true },
-      { label: "Vitrines", href: "#", disabled: true },
-      { label: "Textile", href: "#", disabled: true },
-      { label: "Gadgets", href: "#", disabled: true },
+      { label: "Véhicules", href: "/realisations/vehicules" },
+      { label: "Vitrines", href: "/realisations/vitrines" },
+      { label: "Textile", href: "/realisations/textile" },
+      { label: "Gadgets", href: "/realisations/gadgets" },
     ],
   },
   {
     label: "Machines",
-    href: "#",
-    disabled: true,
+    href: "/machines",
     children: [
-      { label: "Offset", href: "#", disabled: true },
-      { label: "Traceurs", href: "#", disabled: true },
-      { label: "Copieurs", href: "#", disabled: true },
-      { label: "Consommables", href: "#", disabled: true },
+      { label: "Offset", href: "/machines/offset" },
+      { label: "Traceurs", href: "/machines/traceurs" },
+      { label: "Copieurs", href: "/machines/copieurs" },
+      { label: "Consommables", href: "/machines/consommables" },
     ],
   },
   { label: "Contact", href: "/contact" },
@@ -96,24 +93,28 @@ export const services = [
     description:
       "Cartes de visite, flyers, brochures, thèses, reliure et grands formats jusqu'à 2,20 m.",
     icon: "print",
+    href: "/services/impression",
   },
   {
     title: "Décoration & signalétique",
     description:
       "Enseignes, vitrines, véhicules, bâches, panneaux et marquage adhésif intérieur/extérieur.",
     icon: "sign",
+    href: "/services/decoration",
   },
   {
     title: "Personnalisation textile",
     description:
       "Flocage, sérigraphie et transfert sur tee-shirts, polos, casquettes et textiles professionnels.",
     icon: "shirt",
+    href: "/services/personnalisation",
   },
   {
     title: "Machines & consommables",
     description:
       "Vente, installation et SAV de machines offset Heidelberg, traceurs, copieurs et consommables.",
     icon: "machine",
+    href: "/machines",
   },
 ] as const;
 
