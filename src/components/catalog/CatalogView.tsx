@@ -1,9 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { onlinePrices as defaultOnlinePrices } from "@/data/commerce";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/motion/Reveal";
+import type { OnlinePricesMap } from "@/lib/commerce/pricing";
 import { searchProducts } from "@/lib/products";
 import { productCategories } from "@/types/product";
 import type { Product, ProductCategory } from "@/types/product";
@@ -15,6 +17,16 @@ type CatalogViewProps = {
 export function CatalogView({ products }: CatalogViewProps) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<ProductCategory | "all">("all");
+  const [pricesMap, setPricesMap] = useState<OnlinePricesMap>(defaultOnlinePrices);
+
+  useEffect(() => {
+    fetch("/api/catalog/prices")
+      .then((response) => response.json())
+      .then((data: { prices?: OnlinePricesMap }) => {
+        if (data.prices) setPricesMap(data.prices);
+      })
+      .catch(() => undefined);
+  }, []);
 
   const filtered = useMemo(
     () => searchProducts(query, category),
@@ -76,7 +88,7 @@ export function CatalogView({ products }: CatalogViewProps) {
           <ul className="mt-8 grid list-none gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((product) => (
               <li key={product.id}>
-                <ProductCard product={product} />
+                <ProductCard product={product} pricesMap={pricesMap} />
               </li>
             ))}
           </ul>

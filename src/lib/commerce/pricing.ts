@@ -1,19 +1,24 @@
-import {
-  defaultVatRate,
-  onlinePrices,
-  shippingMethods,
-} from "@/data/commerce";
+import { onlinePrices as defaultOnlinePrices } from "@/data/commerce";
 import { getProductBySlug, getAllProducts } from "@/lib/products";
 import type { Product } from "@/types/product";
 import type { CartItem, OrderLine, ShippingMethodId } from "@/types/order";
+import { defaultVatRate, shippingMethods } from "@/data/commerce";
 
-export function getOnlinePrice(productId: string): number | null {
-  const price = onlinePrices[productId];
+export type OnlinePricesMap = Record<string, number>;
+
+export function getOnlinePrice(
+  productId: string,
+  pricesMap: OnlinePricesMap = defaultOnlinePrices,
+): number | null {
+  const price = pricesMap[productId];
   return typeof price === "number" && price > 0 ? price : null;
 }
 
-export function resolveProductPricing(product: Product): Product {
-  const onlinePrice = getOnlinePrice(product.id);
+export function resolveProductPricing(
+  product: Product,
+  pricesMap: OnlinePricesMap = defaultOnlinePrices,
+): Product {
+  const onlinePrice = getOnlinePrice(product.id, pricesMap);
   if (onlinePrice === null) return product;
 
   return {
@@ -26,22 +31,31 @@ export function resolveProductPricing(product: Product): Product {
   };
 }
 
-export function getPurchasableProduct(productId: string): Product | undefined {
+export function getPurchasableProduct(
+  productId: string,
+  pricesMap: OnlinePricesMap = defaultOnlinePrices,
+): Product | undefined {
   const product = getAllProducts().find((item) => item.id === productId);
   if (!product) return undefined;
-  const priced = resolveProductPricing(product);
-  return isPurchasable(priced) ? priced : undefined;
+  const priced = resolveProductPricing(product, pricesMap);
+  return isPurchasable(priced, pricesMap) ? priced : undefined;
 }
 
-export function getPurchasableProductBySlug(slug: string): Product | undefined {
+export function getPurchasableProductBySlug(
+  slug: string,
+  pricesMap: OnlinePricesMap = defaultOnlinePrices,
+): Product | undefined {
   const product = getProductBySlug(slug);
   if (!product) return undefined;
-  const priced = resolveProductPricing(product);
-  return isPurchasable(priced) ? priced : undefined;
+  const priced = resolveProductPricing(product, pricesMap);
+  return isPurchasable(priced, pricesMap) ? priced : undefined;
 }
 
-export function isPurchasable(product: Product): boolean {
-  return getOnlinePrice(product.id) !== null;
+export function isPurchasable(
+  product: Product,
+  pricesMap: OnlinePricesMap = defaultOnlinePrices,
+): boolean {
+  return getOnlinePrice(product.id, pricesMap) !== null;
 }
 
 export function formatMoney(amount: number, currency = "FCFA"): string {
@@ -52,9 +66,12 @@ export function getShippingCost(shippingMethod: ShippingMethodId): number {
   return shippingMethods.find((method) => method.id === shippingMethod)?.price ?? 0;
 }
 
-export function buildOrderLines(items: CartItem[]): OrderLine[] {
+export function buildOrderLines(
+  items: CartItem[],
+  pricesMap: OnlinePricesMap = defaultOnlinePrices,
+): OrderLine[] {
   return items.map((item) => {
-    const product = getPurchasableProduct(item.productId);
+    const product = getPurchasableProduct(item.productId, pricesMap);
     if (!product || product.price === null) {
       throw new Error(`Produit non disponible à l'achat: ${item.productId}`);
     }

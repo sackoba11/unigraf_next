@@ -9,8 +9,12 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { getPurchasableProduct } from "@/lib/commerce/pricing";
-import { formatMoney } from "@/lib/commerce/pricing";
+import { onlinePrices as defaultOnlinePrices } from "@/data/commerce";
+import {
+  formatMoney,
+  getPurchasableProduct,
+  type OnlinePricesMap,
+} from "@/lib/commerce/pricing";
 import type { CartItem } from "@/types/order";
 import type { Product } from "@/types/product";
 
@@ -46,10 +50,10 @@ function loadStoredItems(): CartItem[] {
   }
 }
 
-function toCartLines(items: CartItem[]): CartLine[] {
+function toCartLines(items: CartItem[], pricesMap: OnlinePricesMap): CartLine[] {
   return items
     .map((item) => {
-      const product = getPurchasableProduct(item.productId);
+      const product = getPurchasableProduct(item.productId, pricesMap);
       if (!product || product.price === null) return null;
       return { ...item, product };
     })
@@ -58,11 +62,19 @@ function toCartLines(items: CartItem[]): CartLine[] {
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [pricesMap, setPricesMap] = useState<OnlinePricesMap>(defaultOnlinePrices);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     setItems(loadStoredItems());
     setHydrated(true);
+
+    fetch("/api/catalog/prices")
+      .then((response) => response.json())
+      .then((data: { prices?: OnlinePricesMap }) => {
+        if (data.prices) setPricesMap(data.prices);
+      })
+      .catch(() => undefined);
   }, []);
 
   useEffect(() => {
@@ -70,25 +82,28 @@ export function CartProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   }, [items, hydrated]);
 
-  const lines = useMemo(() => toCartLines(items), [items]);
+  const lines = useMemo(() => toCartLines(items, pricesMap), [items, pricesMap]);
 
-  const addItem = useCallback((productId: string, quantity = 1) => {
-    const product = getPurchasableProduct(productId);
-    if (!product) return false;
+  const addItem = useCallback(
+    (productId: string, quantity = 1) => {
+      const product = getPurchasableProduct(productId, pricesMap);
+      if (!product) return false;
 
-    setItems((current) => {
-      const existing = current.find((item) => item.productId === productId);
-      if (existing) {
-        return current.map((item) =>
-          item.productId === productId
-            ? { ...item, quantity: item.quantity + quantity }
-            : item,
-        );
-      }
-      return [...current, { productId, quantity }];
-    });
-    return true;
-  }, []);
+      setItems((current) => {
+        const existing = current.find((item) => item.productId === productId);
+        if (existing) {
+          return current.map((item) =>
+            item.productId === productId
+              ? { ...item, quantity: item.quantity + quantity }
+              : item,
+          );
+        }
+        return [...current, { productId, quantity }];
+      });
+      return true;
+    },
+    [pricesMap],
+  );
 
   const removeItem = useCallback((productId: string) => {
     setItems((current) => current.filter((item) => item.productId !== productId));

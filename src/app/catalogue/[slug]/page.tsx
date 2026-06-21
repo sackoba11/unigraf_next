@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/Container";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Reveal } from "@/components/motion/Reveal";
 import { ProductActions } from "@/components/catalog/ProductActions";
+import { getMergedOnlinePrices } from "@/lib/commerce/online-prices-store";
 import {
   formatProductPrice,
   getAllProducts,
@@ -44,8 +45,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   if (!product) notFound();
 
-  const priceLabel = formatProductPrice(product);
-  const purchasable = getProductPrice(product) !== null;
+  const pricesMap = getMergedOnlinePrices();
+  const priceLabel = formatProductPrice(product, pricesMap);
+  const purchasable = getProductPrice(product, pricesMap) !== null;
   const quoteHref = `/devis?produit=${encodeURIComponent(product.name)}`;
   const galleryImages = product.images.map((src, index) => ({
     src,

@@ -1,7 +1,7 @@
 import type { Order } from "@/types/order";
 import { contact, siteConfig } from "@/data/site";
 import { formatMoney } from "@/lib/commerce/pricing";
-import { getQuoteRecipient, sendFormEmail } from "@/lib/forms/send-email";
+import { getSavRecipient, sendFormEmail } from "@/lib/forms/send-email";
 
 export async function sendOrderEmails(order: Order): Promise<void> {
   const linesText = order.lines

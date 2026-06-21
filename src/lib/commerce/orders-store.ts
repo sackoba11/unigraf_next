@@ -44,3 +44,41 @@ export async function updateOrderStatus(
   await saveOrder(updated);
   return updated;
 }
+
+export async function listOrders(): Promise<Order[]> {
+  ensureOrdersDir();
+  const files = fs
+    .readdirSync(ORDERS_DIR)
+    .filter((file) => file.endsWith(".json"));
+
+  const orders = await Promise.all(
+    files.map(async (file) => {
+      const raw = await fs.promises.readFile(path.join(ORDERS_DIR, file), "utf8");
+      return JSON.parse(raw) as Order;
+    }),
+  );
+
+  return orders.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  );
+}
+
+export async function deleteOrder(orderId: string): Promise<boolean> {
+  ensureOrdersDir();
+  const filePath = path.join(ORDERS_DIR, `${orderId}.json`);
+  if (!fs.existsSync(filePath)) return false;
+  await fs.promises.unlink(filePath);
+  return true;
+}
+
+export function getOrderStats(orders: Order[]) {
+  return {
+    total: orders.length,
+    pendingPayment: orders.filter((order) => order.status === "pending_payment").length,
+    awaitingTransfer: orders.filter((order) => order.status === "awaiting_transfer").length,
+    paid: orders.filter((order) => order.status === "paid").length,
+    revenue: orders
+      .filter((order) => ["paid", "processing", "shipped"].includes(order.status))
+      .reduce((sum, order) => sum + order.total, 0),
+  };
+}

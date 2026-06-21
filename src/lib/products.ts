@@ -1,5 +1,6 @@
 import catalogData from "@/data/catalog/products.json";
-import { onlinePrices } from "@/data/commerce";
+import { onlinePrices as defaultOnlinePrices } from "@/data/commerce";
+import type { OnlinePricesMap } from "@/lib/commerce/pricing";
 import type { Product, ProductCategory } from "@/types/product";
 
 type CatalogFile = {
@@ -36,15 +37,21 @@ export function searchProducts(query: string, category: ProductCategory | "all" 
   );
 }
 
-export function getProductPrice(product: Product): number | null {
-  const online = onlinePrices[product.id];
+export function getProductPrice(
+  product: Product,
+  pricesMap: OnlinePricesMap = defaultOnlinePrices,
+): number | null {
+  const online = pricesMap[product.id];
   if (typeof online === "number" && online > 0) return online;
   if (product.price !== null && product.price > 0) return product.price;
   return null;
 }
 
-export function formatProductPrice(product: Product): string {
-  const price = getProductPrice(product);
+export function formatProductPrice(
+  product: Product,
+  pricesMap: OnlinePricesMap = defaultOnlinePrices,
+): string {
+  const price = getProductPrice(product, pricesMap);
   if (price === null) {
     return "Prix sur demande";
   }

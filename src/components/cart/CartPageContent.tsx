@@ -12,21 +12,23 @@ import { Container } from "@/components/ui/Container";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { useCart } from "@/context/CartProvider";
 import { calculateTotals } from "@/lib/commerce/pricing";
-import { buildOrderLines } from "@/lib/commerce/pricing";
+import type { OrderLine } from "@/types/order";
 
 export function CartPageContent() {
   const { items, clearCart } = useCart();
 
   const totals = useMemo(() => {
     if (!items.length) return null;
-    try {
-      const lines = buildOrderLines(
-        items.map((item) => ({ productId: item.productId, quantity: item.quantity })),
-      );
-      return calculateTotals(lines, "poste");
-    } catch {
-      return null;
-    }
+    const lines: OrderLine[] = items.map((line) => ({
+      productId: line.productId,
+      slug: line.product.slug,
+      name: line.product.name,
+      unitPrice: line.product.price ?? 0,
+      quantity: line.quantity,
+      vatRate: line.product.vat ?? 0.18,
+      image: line.product.images[0],
+    }));
+    return calculateTotals(lines, "poste");
   }, [items]);
 
   return (

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { initiateCinetPayPayment } from "@/lib/commerce/cinetpay";
+import { getMergedOnlinePrices } from "@/lib/commerce/online-prices-store";
 import { sendOrderEmails } from "@/lib/commerce/order-email";
 import { generateOrderNumber, saveOrder } from "@/lib/commerce/orders-store";
 import {
@@ -37,11 +38,13 @@ export async function POST(request: Request) {
       );
     }
 
+    const pricesMap = getMergedOnlinePrices();
     const lines = buildOrderLines(
       payload.items.map((item) => ({
         productId: item.productId,
         quantity: Math.max(1, Math.min(99, item.quantity)),
       })),
+      pricesMap,
     );
 
     const totals = calculateTotals(lines, payload.shippingMethod);

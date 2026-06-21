@@ -42,3 +42,4 @@ next-env.d.ts
 
 # commandes e-commerce (données locales)
 /data/orders/
+/data/admin/

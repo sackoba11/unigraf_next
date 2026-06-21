@@ -24,8 +24,26 @@ import {
   shippingMethods,
 } from "@/data/commerce";
 import { useCart } from "@/context/CartProvider";
-import { buildOrderLines, calculateTotals } from "@/lib/commerce/pricing";
-import type { PaymentMethodId, ShippingMethodId } from "@/types/order";
+import { calculateTotals } from "@/lib/commerce/pricing";
+import type { OrderLine, PaymentMethodId, ShippingMethodId } from "@/types/order";
+
+function cartItemsToOrderLines(
+  items: {
+    productId: string;
+    quantity: number;
+    product: { slug: string; name: string; price: number | null; vat: number; images: string[] };
+  }[],
+): OrderLine[] {
+  return items.map((line) => ({
+    productId: line.productId,
+    slug: line.product.slug,
+    name: line.product.name,
+    unitPrice: line.product.price ?? 0,
+    quantity: line.quantity,
+    vatRate: line.product.vat ?? 0.18,
+    image: line.product.images[0],
+  }));
+}
 
 const initialCustomer = {
   firstName: "",
@@ -52,10 +70,7 @@ export function CheckoutPageContent() {
 
   const totals = useMemo(() => {
     if (!items.length) return null;
-    const lines = buildOrderLines(
-      items.map((item) => ({ productId: item.productId, quantity: item.quantity })),
-    );
-    return calculateTotals(lines, shippingMethod);
+    return calculateTotals(cartItemsToOrderLines(items), shippingMethod);
   }, [items, shippingMethod]);
 
   function updateField(name: keyof typeof initialCustomer, value: string) {

@@ -1,16 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { formatProductPrice, getCategoryLabel, getProductPrice } from "@/lib/products";
+import type { OnlinePricesMap } from "@/lib/commerce/pricing";
+import { onlinePrices as defaultOnlinePrices } from "@/data/commerce";
 import type { Product } from "@/types/product";
 
 type ProductCardProps = {
   product: Product;
+  pricesMap?: OnlinePricesMap;
 };
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, pricesMap = defaultOnlinePrices }: ProductCardProps) {
   const image = product.images[0];
-  const priceLabel = formatProductPrice(product);
-  const purchasable = getProductPrice(product) !== null;
+  const priceLabel = formatProductPrice(product, pricesMap);
+  const purchasable = getProductPrice(product, pricesMap) !== null;
 
   return (
     <Link
