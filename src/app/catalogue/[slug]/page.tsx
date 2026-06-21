@@ -45,7 +45,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   if (!product) notFound();
 
-  const pricesMap = getMergedOnlinePrices();
+  const pricesMap = await getMergedOnlinePrices();
   const priceLabel = formatProductPrice(product, pricesMap);
   const purchasable = getProductPrice(product, pricesMap) !== null;
   const quoteHref = `/devis?produit=${encodeURIComponent(product.name)}`;

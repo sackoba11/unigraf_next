@@ -1,38 +1,25 @@
-import fs from "node:fs";
-import path from "node:path";
 import { onlinePrices as defaultOnlinePrices } from "@/data/commerce";
+import { prisma } from "@/lib/db/prisma";
 
-const PRICES_DIR = path.join(process.cwd(), "data", "admin");
-const PRICES_FILE = path.join(PRICES_DIR, "prices.json");
+async function readOverrides(): Promise<Record<string, number>> {
+  const rows = await prisma.priceOverride.findMany();
+  const overrides: Record<string, number> = {};
 
-function ensurePricesDir() {
-  if (!fs.existsSync(PRICES_DIR)) {
-    fs.mkdirSync(PRICES_DIR, { recursive: true });
+  for (const row of rows) {
+    overrides[row.productId] = row.price;
   }
+
+  return overrides;
 }
 
-function readOverrides(): Record<string, number> {
-  ensurePricesDir();
-  if (!fs.existsSync(PRICES_FILE)) return {};
-
-  try {
-    const raw = fs.readFileSync(PRICES_FILE, "utf8");
-    const parsed = JSON.parse(raw) as Record<string, number>;
-    return parsed && typeof parsed === "object" ? parsed : {};
-  } catch {
-    return {};
-  }
-}
-
-export function getMergedOnlinePrices(): Record<string, number> {
-  const overrides = readOverrides();
+export async function getMergedOnlinePrices(): Promise<Record<string, number>> {
+  const overrides = await readOverrides();
   return { ...defaultOnlinePrices, ...overrides };
 }
 
 export async function saveOnlinePriceOverrides(
   prices: Record<string, number>,
 ): Promise<void> {
-  ensurePricesDir();
   const sanitized: Record<string, number> = {};
 
   for (const [productId, value] of Object.entries(prices)) {
@@ -41,7 +28,12 @@ export async function saveOnlinePriceOverrides(
     }
   }
 
-  await fs.promises.writeFile(PRICES_FILE, JSON.stringify(sanitized, null, 2), "utf8");
+  await prisma.$transaction([
+    prisma.priceOverride.deleteMany(),
+    ...Object.entries(sanitized).map(([productId, price]) =>
+      prisma.priceOverride.create({ data: { productId, price } }),
+    ),
+  ]);
 }
 
 export { defaultOnlinePrices };

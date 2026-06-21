@@ -4,13 +4,19 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
+    "postinstall": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "db:import-json": "node scripts/import-json-to-db.mjs",
     "import:legacy": "node scripts/import-legacy.mjs",
     "import:products": "node scripts/import-products.mjs"
   },
   "dependencies": {
+    "@prisma/client": "^6.19.3",
     "framer-motion": "^12.40.0",
     "next": "16.2.9",
     "nodemailer": "^9.0.1",
@@ -25,6 +31,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
+    "prisma": "^6.19.3",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

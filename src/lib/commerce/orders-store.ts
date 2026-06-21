@@ -1,13 +1,47 @@
-import fs from "node:fs";
-import path from "node:path";
-import type { Order } from "@/types/order";
+import { prisma } from "@/lib/db/prisma";
+import type {
+  Order,
+  OrderCustomer,
+  OrderLine,
+  OrderStatus,
+  PaymentMethodId,
+  ShippingMethodId,
+} from "@/types/order";
 
-const ORDERS_DIR = path.join(process.cwd(), "data", "orders");
+type DbOrder = {
+  id: string;
+  createdAt: Date;
+  status: string;
+  paymentMethod: string;
+  shippingMethod: string;
+  customer: unknown;
+  lines: unknown;
+  subtotal: number;
+  shippingCost: number;
+  vatAmount: number;
+  total: number;
+  currency: string;
+  paymentUrl: string | null;
+  paymentReference: string | null;
+};
 
-function ensureOrdersDir() {
-  if (!fs.existsSync(ORDERS_DIR)) {
-    fs.mkdirSync(ORDERS_DIR, { recursive: true });
-  }
+function mapDbOrderToOrder(row: DbOrder): Order {
+  return {
+    id: row.id,
+    createdAt: row.createdAt.toISOString(),
+    status: row.status as OrderStatus,
+    paymentMethod: row.paymentMethod as PaymentMethodId,
+    shippingMethod: row.shippingMethod as ShippingMethodId,
+    customer: row.customer as OrderCustomer,
+    lines: row.lines as OrderLine[],
+    subtotal: row.subtotal,
+    shippingCost: row.shippingCost,
+    vatAmount: row.vatAmount,
+    total: row.total,
+    currency: row.currency,
+    paymentUrl: row.paymentUrl ?? undefined,
+    paymentReference: row.paymentReference ?? undefined,
+  };
 }
 
 export function generateOrderNumber(date = new Date()): string {
@@ -19,17 +53,29 @@ export function generateOrderNumber(date = new Date()): string {
 }
 
 export async function saveOrder(order: Order): Promise<void> {
-  ensureOrdersDir();
-  const filePath = path.join(ORDERS_DIR, `${order.id}.json`);
-  await fs.promises.writeFile(filePath, JSON.stringify(order, null, 2), "utf8");
+  await prisma.order.create({
+    data: {
+      id: order.id,
+      createdAt: new Date(order.createdAt),
+      status: order.status,
+      paymentMethod: order.paymentMethod,
+      shippingMethod: order.shippingMethod,
+      customer: order.customer,
+      lines: order.lines,
+      subtotal: order.subtotal,
+      shippingCost: order.shippingCost,
+      vatAmount: order.vatAmount,
+      total: order.total,
+      currency: order.currency,
+      paymentUrl: order.paymentUrl ?? null,
+      paymentReference: order.paymentReference ?? null,
+    },
+  });
 }
 
 export async function getOrder(orderId: string): Promise<Order | null> {
-  ensureOrdersDir();
-  const filePath = path.join(ORDERS_DIR, `${orderId}.json`);
-  if (!fs.existsSync(filePath)) return null;
-  const raw = await fs.promises.readFile(filePath, "utf8");
-  return JSON.parse(raw) as Order;
+  const row = await prisma.order.findUnique({ where: { id: orderId } });
+  return row ? mapDbOrderToOrder(row) : null;
 }
 
 export async function updateOrderStatus(
@@ -37,38 +83,47 @@ export async function updateOrderStatus(
   status: Order["status"],
   extra?: Partial<Order>,
 ): Promise<Order | null> {
-  const order = await getOrder(orderId);
-  if (!order) return null;
+  const existing = await getOrder(orderId);
+  if (!existing) return null;
 
-  const updated: Order = { ...order, ...extra, status };
-  await saveOrder(updated);
-  return updated;
+  const updated: Order = { ...existing, ...extra, status };
+
+  const row = await prisma.order.update({
+    where: { id: orderId },
+    data: {
+      status: updated.status,
+      paymentMethod: updated.paymentMethod,
+      shippingMethod: updated.shippingMethod,
+      customer: updated.customer,
+      lines: updated.lines,
+      subtotal: updated.subtotal,
+      shippingCost: updated.shippingCost,
+      vatAmount: updated.vatAmount,
+      total: updated.total,
+      currency: updated.currency,
+      paymentUrl: updated.paymentUrl ?? null,
+      paymentReference: updated.paymentReference ?? null,
+    },
+  });
+
+  return mapDbOrderToOrder(row);
 }
 
 export async function listOrders(): Promise<Order[]> {
-  ensureOrdersDir();
-  const files = fs
-    .readdirSync(ORDERS_DIR)
-    .filter((file) => file.endsWith(".json"));
+  const rows = await prisma.order.findMany({
+    orderBy: { createdAt: "desc" },
+  });
 
-  const orders = await Promise.all(
-    files.map(async (file) => {
-      const raw = await fs.promises.readFile(path.join(ORDERS_DIR, file), "utf8");
-      return JSON.parse(raw) as Order;
-    }),
-  );
-
-  return orders.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-  );
+  return rows.map(mapDbOrderToOrder);
 }
 
 export async function deleteOrder(orderId: string): Promise<boolean> {
-  ensureOrdersDir();
-  const filePath = path.join(ORDERS_DIR, `${orderId}.json`);
-  if (!fs.existsSync(filePath)) return false;
-  await fs.promises.unlink(filePath);
-  return true;
+  try {
+    await prisma.order.delete({ where: { id: orderId } });
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function getOrderStats(orders: Order[]) {

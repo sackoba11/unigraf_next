@@ -6,7 +6,8 @@ export async function GET() {
   const denied = await requireAdminSession();
   if (denied) return denied;
 
-  return NextResponse.json({ rows: getAdminPriceRows() });
+  const rows = await getAdminPriceRows();
+  return NextResponse.json({ rows });
 }
 
 export async function PUT(request: Request) {
@@ -22,5 +23,6 @@ export async function PUT(request: Request) {
   }
 
   const prices = await updateAdminPrices(body.prices);
-  return NextResponse.json({ ok: true, prices, rows: getAdminPriceRows() });
+  const rows = await getAdminPriceRows();
+  return NextResponse.json({ ok: true, prices, rows });
 }

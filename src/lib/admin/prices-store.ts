@@ -5,8 +5,8 @@ import {
   saveOnlinePriceOverrides,
 } from "@/lib/commerce/online-prices-store";
 
-export function getAdminPriceRows() {
-  const merged = getMergedOnlinePrices();
+export async function getAdminPriceRows() {
+  const merged = await getMergedOnlinePrices();
 
   return getAllProducts()
     .filter((product) => product.id in defaultOnlinePrices || product.id in merged)
@@ -23,7 +23,7 @@ export function getAdminPriceRows() {
 }
 
 export async function updateAdminPrices(updates: Record<string, number | null>) {
-  const current = getMergedOnlinePrices();
+  const current = await getMergedOnlinePrices();
   const next: Record<string, number> = {};
 
   for (const productId of Object.keys(defaultOnlinePrices)) {

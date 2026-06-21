@@ -38,7 +38,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const pricesMap = getMergedOnlinePrices();
+    const pricesMap = await getMergedOnlinePrices();
     const lines = buildOrderLines(
       payload.items.map((item) => ({
         productId: item.productId,
