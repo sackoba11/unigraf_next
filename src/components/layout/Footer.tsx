@@ -34,6 +34,7 @@ export function Footer() {
                 { href: "/savoir-faire", label: "Savoir-faire" },
                 { href: "/contact", label: "Contact" },
                 { href: "/devis", label: "Demander un devis" },
+                { href: "/sav", label: "Demande SAV" },
               ].map((link) => (
                 <li key={link.href}>
                   <motion.div whileHover={reduced ? undefined : { x: 4 }} transition={{ duration: 0.2 }}>

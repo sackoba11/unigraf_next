@@ -50,6 +50,8 @@ export function ImageGallery({ images, columns = 3 }: ImageGalleryProps) {
     4: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4",
   }[columns];
 
+  const activeImage = activeIndex !== null ? images[activeIndex] : null;
+
   return (
     <>
       <div className={`grid gap-4 ${gridClass}`}>
@@ -77,66 +79,79 @@ export function ImageGallery({ images, columns = 3 }: ImageGalleryProps) {
       </div>
 
       <AnimatePresence>
-        {activeIndex !== null && (
+        {activeImage && activeIndex !== null && (
           <motion.div
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-4"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/92 p-4 sm:p-6 lg:p-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={close}
           >
+            <button
+              type="button"
+              onClick={close}
+              className="absolute right-4 top-4 z-[110] rounded-lg bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-white/20 sm:right-6 sm:top-6"
+            >
+              Fermer
+            </button>
+
+            {images.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    showPrev();
+                  }}
+                  className="absolute left-2 top-1/2 z-[110] -translate-y-1/2 rounded-full bg-black/60 px-4 py-3 text-2xl leading-none text-white backdrop-blur-sm transition hover:bg-black/80 sm:left-6 lg:left-10"
+                  aria-label="Image précédente"
+                >
+                  ‹
+                </button>
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    showNext();
+                  }}
+                  className="absolute right-2 top-1/2 z-[110] -translate-y-1/2 rounded-full bg-black/60 px-4 py-3 text-2xl leading-none text-white backdrop-blur-sm transition hover:bg-black/80 sm:right-6 lg:right-10"
+                  aria-label="Image suivante"
+                >
+                  ›
+                </button>
+              </>
+            )}
+
             <motion.div
-              className="relative max-h-[90vh] w-full max-w-5xl"
-              initial={{ scale: 0.95, opacity: 0 }}
+              className="flex w-full max-w-[min(96vw,1600px)] flex-col items-center justify-center"
+              initial={{ scale: 0.97, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
+              exit={{ scale: 0.97, opacity: 0 }}
               onClick={(event) => event.stopPropagation()}
             >
-              <button
-                type="button"
-                onClick={close}
-                className="absolute -top-12 right-0 rounded-lg bg-white/10 px-3 py-1.5 text-sm text-white hover:bg-white/20"
-              >
-                Fermer
-              </button>
-
-              <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-black">
+              {/* Zone image : hauteur/largeur viewport, ratio libre */}
+              <div className="relative flex h-[min(78vh,900px)] w-full items-center justify-center sm:h-[min(82vh,960px)] lg:h-[min(85vh,1000px)]">
                 <Image
-                  src={images[activeIndex].src}
-                  alt={images[activeIndex].alt || "Réalisation UNIGRAF"}
-                  fill
-                  className="object-contain"
-                  sizes="100vw"
+                  src={activeImage.src}
+                  alt={activeImage.alt || "Réalisation UNIGRAF"}
+                  width={1920}
+                  height={1440}
+                  className="max-h-full max-w-full object-contain"
+                  sizes="(max-width: 768px) 96vw, (max-width: 1536px) 90vw, 1600px"
                   priority
                 />
               </div>
 
-              {images[activeIndex].alt && (
-                <p className="mt-3 text-center text-sm text-white/90">
-                  {images[activeIndex].alt}
-                </p>
-              )}
-
-              {images.length > 1 && (
-                <>
-                  <button
-                    type="button"
-                    onClick={showPrev}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 px-3 py-2 text-white hover:bg-black/70"
-                    aria-label="Image précédente"
-                  >
-                    ‹
-                  </button>
-                  <button
-                    type="button"
-                    onClick={showNext}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 px-3 py-2 text-white hover:bg-black/70"
-                    aria-label="Image suivante"
-                  >
-                    ›
-                  </button>
-                </>
-              )}
+              <div className="mt-4 flex w-full max-w-3xl flex-col items-center gap-1 px-2 text-center">
+                {activeImage.alt && (
+                  <p className="text-sm text-white/90 sm:text-base">{activeImage.alt}</p>
+                )}
+                {images.length > 1 && (
+                  <p className="text-xs text-white/50">
+                    {activeIndex + 1} / {images.length}
+                  </p>
+                )}
+              </div>
             </motion.div>
           </motion.div>
         )}

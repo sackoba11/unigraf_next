@@ -13,7 +13,7 @@ import {
 import { mainNavigation, siteConfig, type NavItem } from "@/data/site";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { dropdownVariants, easeOut, mobileMenuVariants } from "@/lib/motion";
+import { dropdownVariants, easeOut } from "@/lib/motion";
 
 const navLinkClass =
   "relative inline-flex shrink-0 items-center whitespace-nowrap rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors duration-200 hover:bg-brand-orange/10 hover:text-brand-orange";
@@ -67,13 +67,17 @@ function DesktopDropdown({ item }: { item: NavItem }) {
       <AnimatePresence>
         {hovered && item.children?.length && (
           <motion.div
-            className="absolute left-0 top-full z-50 min-w-52 pt-2"
+            className="absolute left-0 top-full z-50 pt-2"
             initial={reduced ? false : "hidden"}
             animate="visible"
             exit="exit"
             variants={dropdownVariants}
           >
-            <div className="overflow-hidden rounded-xl border border-slate-200 bg-white py-1.5 shadow-xl shadow-slate-200/50">
+            <div
+              className={`overflow-hidden rounded-xl border border-slate-200 bg-white py-1.5 shadow-xl shadow-slate-200/50 ${
+                (item.children?.length ?? 0) >= 6 ? "grid min-w-[28rem] grid-cols-2" : "min-w-52"
+              }`}
+            >
               {item.children.map((child, index) =>
                 child.disabled ? (
                   <span
@@ -110,59 +114,144 @@ function DesktopDropdown({ item }: { item: NavItem }) {
 function MobileNavItem({
   item,
   index,
+  menuOpen,
   onClose,
 }: {
   item: NavItem;
   index: number;
+  menuOpen: boolean;
   onClose: () => void;
 }) {
+  const pathname = usePathname();
   const reduced = useReducedMotion();
+  const hasChildren = Boolean(item.children?.length);
+  const isSectionActive =
+    pathname === item.href ||
+    item.children?.some((child) => child.href === pathname);
+  const [expanded, setExpanded] = useState(false);
 
-  const content = item.children?.length ? (
-    <div className="space-y-2">
-      <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+  useEffect(() => {
+    if (!menuOpen) {
+      setExpanded(false);
+      return;
+    }
+    if (isSectionActive && hasChildren) {
+      setExpanded(true);
+    }
+  }, [menuOpen, isSectionActive, hasChildren]);
+
+  if (!hasChildren) {
+    const leaf = item.disabled ? (
+      <span className="block rounded-lg px-3 py-2.5 text-sm text-slate-400">{item.label}</span>
+    ) : (
+      <Link
+        href={item.href}
+        onClick={onClose}
+        className={`block rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors hover:bg-brand-orange/10 hover:text-brand-orange ${
+          pathname === item.href ? "bg-brand-orange/10 text-brand-orange" : "text-slate-700"
+        }`}
+      >
         {item.label}
-      </p>
-      <div className="flex flex-col gap-1 pl-3">
-        {item.children.map((child) =>
-          child.disabled ? (
-            <span key={child.label} className="text-sm text-slate-400">
-              {child.label}
-            </span>
-          ) : (
-            <Link
-              key={child.href}
-              href={child.href}
-              onClick={onClose}
-              className="inline-flex rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-brand-orange/10 hover:text-brand-orange"
-            >
-              {child.label}
-            </Link>
-          ),
+      </Link>
+    );
+
+    if (reduced) return <div>{leaf}</div>;
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, x: -16 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: index * 0.04, duration: 0.25, ease: easeOut }}
+      >
+        {leaf}
+      </motion.div>
+    );
+  }
+
+  const accordion = (
+    <div className="rounded-xl border border-slate-100 bg-slate-50/80">
+      <button
+        type="button"
+        className="flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-slate-700 transition-colors hover:bg-brand-orange/5 hover:text-brand-orange"
+        aria-expanded={expanded}
+        onClick={() => setExpanded((value) => !value)}
+      >
+        <span className={isSectionActive ? "text-brand-orange" : undefined}>{item.label}</span>
+        <svg
+          className={`h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200 ${
+            expanded ? "rotate-180" : ""
+          }`}
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            fillRule="evenodd"
+            d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </button>
+
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            initial={reduced ? false : { height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={reduced ? undefined : { height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: easeOut }}
+            className="overflow-hidden"
+          >
+            <div className="space-y-0.5 border-t border-slate-200/80 px-2 py-2">
+              {!item.disabled && (
+                <Link
+                  href={item.href}
+                  onClick={onClose}
+                  className={`block rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-brand-orange/10 hover:text-brand-orange ${
+                    pathname === item.href
+                      ? "bg-brand-orange/10 text-brand-orange"
+                      : "text-slate-600"
+                  }`}
+                >
+                  Tout voir — {item.label}
+                </Link>
+              )}
+              {item.children!.map((child) =>
+                child.disabled ? (
+                  <span key={child.label} className="block px-3 py-2 text-sm text-slate-400">
+                    {child.label}
+                  </span>
+                ) : (
+                  <Link
+                    key={child.href}
+                    href={child.href}
+                    onClick={onClose}
+                    className={`block rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-brand-orange/10 hover:text-brand-orange ${
+                      pathname === child.href
+                        ? "bg-brand-orange/10 text-brand-orange"
+                        : "text-slate-600"
+                    }`}
+                  >
+                    {child.label}
+                  </Link>
+                ),
+              )}
+            </div>
+          </motion.div>
         )}
-      </div>
+      </AnimatePresence>
     </div>
-  ) : item.disabled ? (
-    <span className="text-sm text-slate-400">{item.label}</span>
-  ) : (
-    <Link
-      href={item.href}
-      onClick={onClose}
-      className="inline-flex rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-brand-orange/10 hover:text-brand-orange"
-    >
-      {item.label}
-    </Link>
   );
 
-  if (reduced) return <div>{content}</div>;
+  if (reduced) return <div>{accordion}</div>;
 
   return (
     <motion.div
       initial={{ opacity: 0, x: -16 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: index * 0.05, duration: 0.3, ease: easeOut }}
+      transition={{ delay: index * 0.04, duration: 0.25, ease: easeOut }}
     >
-      {content}
+      {accordion}
     </motion.div>
   );
 }
@@ -245,27 +334,35 @@ export function Header() {
 
         <AnimatePresence>
           {open && (
-            <motion.nav
-              className="overflow-hidden border-t border-slate-200 xl:hidden"
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              variants={mobileMenuVariants}
+            <motion.div
+              className="border-t border-slate-200 xl:hidden"
+              initial={reduced ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2, ease: easeOut }}
             >
-              <div className="space-y-3 py-4">
-                {mainNavigation.map((item, index) => (
-                  <MobileNavItem
-                    key={item.label}
-                    item={item}
-                    index={index}
-                    onClose={() => setOpen(false)}
-                  />
-                ))}
-                <Button href="/devis" className="w-full justify-center">
-                  Demander un devis
-                </Button>
-              </div>
-            </motion.nav>
+              <nav
+                aria-label="Menu mobile"
+                className="max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-y-contain py-4 [-webkit-overflow-scrolling:touch]"
+              >
+                <div className="space-y-2">
+                  {mainNavigation.map((item, index) => (
+                    <MobileNavItem
+                      key={item.label}
+                      item={item}
+                      index={index}
+                      menuOpen={open}
+                      onClose={() => setOpen(false)}
+                    />
+                  ))}
+                </div>
+                <div className="mt-4 border-t border-slate-200 pt-4">
+                  <Button href="/devis" className="w-full justify-center">
+                    Demander un devis
+                  </Button>
+                </div>
+              </nav>
+            </motion.div>
           )}
         </AnimatePresence>
       </Container>

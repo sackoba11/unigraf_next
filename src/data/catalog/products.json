@@ -1,0 +1,541 @@
+{
+  "meta": {
+    "importedAt": "2026-06-21T14:11:05.291Z",
+    "count": 38,
+    "source": "2020/cart/x5cart.js"
+  },
+  "products": [
+    {
+      "id": "76rdz7z8",
+      "slug": "machine-d-imprimerie-abdik-9810",
+      "name": "Machine d'imprimerie Abdik 9810",
+      "category": "offset",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Abdik-9810.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "0y6h1c77",
+      "slug": "machine-d-imprimerie-adast-2-couleurs-724",
+      "name": "Machine d'imprimerie Adast 2 Couleurs 724",
+      "category": "offset",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Adast-724-Bicolor.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "k4rb7253",
+      "slug": "machine-d-imprimerie-adast-5-couleurs-755cp",
+      "name": "Machine d'imprimerie Adast 5 Couleurs 755CP",
+      "category": "offset",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Adast-755CP-5-Couleurs.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "813i7qen",
+      "slug": "machine-d-imprimerie-4-couleurs-gto-52",
+      "name": "Machine d'imprimerie 4 Couleurs GTO 52",
+      "category": "offset",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Heidelberg-GTO-V-52--4-Couleurs_2cg62655.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "6i5xcf0z",
+      "slug": "machine-d-imprimerie-heidelberg-moz-2-couleurs",
+      "name": "Machine d'imprimerie Heidelberg MOz 2 Couleurs",
+      "category": "offset",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Heidelberg-MOZ-2Couleurs.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "353pva4g",
+      "slug": "stock-cartons-rame",
+      "name": "Stock Cartons Rame",
+      "category": "consommables",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/3584H_110211_70694.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "12kor0n7",
+      "slug": "cartouche-traceur-hp-800-ps",
+      "name": "Cartouche Traceur HP 800 PS",
+      "category": "consommables",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Cartouche-Traceur-PH-800.Couleur.gif"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "z42l4jh6",
+      "slug": "encre-risograph-gr-1700",
+      "name": "Encre Risograph GR 1700",
+      "category": "consommables",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Encre-Risograph-GR-1700.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "88wopae3",
+      "slug": "cartouche-traceur-ph-5500-uv-5000uv",
+      "name": "Cartouche Traceur PH 5500 UV -5000UV",
+      "category": "consommables",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Cartouche-Traceur-PH-5000--5500-UV.png"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "1398vagv",
+      "slug": "encre-risograph-hc-5500",
+      "name": "Encre Risograph Hc 5500",
+      "category": "consommables",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Encre-Riso-graph-Hc5500.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "9p9x444k",
+      "slug": "carrousel-6-couleurs",
+      "name": "Carrousel 6 Couleurs",
+      "category": "serigraphie-massicots",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Machine-a-serigraphie.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "7oqhen75",
+      "slug": "traceur-roland-sp-540",
+      "name": "Traceur Roland Sp 540",
+      "category": "traceurs",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Roland-SP-540i.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "287wh03j",
+      "slug": "traceur-mimaki-jfx-1615",
+      "name": "Traceur Mimaki JFX 1615",
+      "category": "traceurs",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/mimaki-JFX-1615plus--160x150-cm-_7c5rbdc1.png"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "e085c390",
+      "slug": "personnalisation-tasse",
+      "name": "Personnalisation Tasse",
+      "category": "personnalisation",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Tazza_Love_52cd21baad98c_185x185.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "dz8nz0kz",
+      "slug": "risograph-a3-couleur",
+      "name": "Risograph A3 Couleur",
+      "category": "copieurs",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Riso-MZ770-A3-Color-2-DPI-600-Risograph.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "obn39p2g",
+      "slug": "copieur-canon-ir-7200",
+      "name": "Copieur Canon IR 7200",
+      "category": "copieurs",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Canon-IR-7200.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "6511799a",
+      "slug": "copieur-kyocera-taskalfa-400ci-500ci",
+      "name": "Copieur Kyocera Taskalfa 400CI - 500CI",
+      "category": "copieurs",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Kyocera-Taskalfa-400CI-500CI.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "d5k5hcom",
+      "slug": "duplicopieur-ricoh-dx-4640",
+      "name": "Duplicopieur Ricoh DX 4640",
+      "category": "copieurs",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Duplicopieur-Ricoh--Priport-DX4640PD.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "set366l9",
+      "slug": "personnalisation-tricot",
+      "name": "Personnalisation Tricot",
+      "category": "personnalisation",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Decouppe-Vynil-Termo-28.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "06584n23",
+      "slug": "personnalisation2-tricot",
+      "name": "Personnalisation2 Tricot",
+      "category": "personnalisation",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Decouppe-Vynil-Termo-36.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "vjt320cu",
+      "slug": "personnalisation3-tricot",
+      "name": "Personnalisation3 Tricot",
+      "category": "personnalisation",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Transfert-13.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "79aq51sq",
+      "slug": "personnalisatio4-tricot",
+      "name": "Personnalisatio4 Tricot",
+      "category": "personnalisation",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Transfert-12.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "k9h61x7h",
+      "slug": "machine-a-broder-logo-12-aiguilles",
+      "name": "Machine a Broder logo 12 Aiguilles",
+      "category": "broderie-couture",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Macchine-a-broder-logo-12-Aiguilles.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "hgti73nd",
+      "slug": "machine-a-broder-logo-6-tetes-11-aiguilles-brother",
+      "name": "Machine a Broder logo 6 Tetes 11 Aiguilles (Brother)",
+      "category": "broderie-couture",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Brother-BES-1261--.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "ijpt8mp5",
+      "slug": "machine-a-broder-logo-3-tetes-6-aiguilles",
+      "name": "Machine a Broder logo 3 Tetes 6 Aiguilles",
+      "category": "broderie-couture",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Machine-a-broder-logo-3-tetes.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "f07x7aul",
+      "slug": "machine-corteuse",
+      "name": "Machine Corteuse",
+      "category": "broderie-couture",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Corteuse.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "2no478co",
+      "slug": "machine-boutonniere-durkopp",
+      "name": "Machine Boutonnière Durkopp",
+      "category": "broderie-couture",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Boutonniere-Durkopp.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "g7c321i5",
+      "slug": "machine-sifileuse-brother",
+      "name": "Machine Sifileuse Brother",
+      "category": "broderie-couture",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Sifileuse-Brother-600.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "xwa60oo8",
+      "slug": "machine-piqueuse-durkopp",
+      "name": "Machine Piqueuse Durkopp",
+      "category": "broderie-couture",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Piqueuse-Durkopp.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "0s1e300n",
+      "slug": "toner-tous-modeles-canon",
+      "name": "Toner tous modeles Canon",
+      "category": "consommables",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Tonnr-IR5000.gif"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "3ku5hzem",
+      "slug": "encre-offset-et-serigraphie",
+      "name": "Encre Offset et Serigraphie",
+      "category": "consommables",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Boite-d-encre-Offset-1.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "0d60h1ye",
+      "slug": "tampon-trodat",
+      "name": "Tampon Trodat",
+      "category": "personnalisation",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Tampon-Trodat-2.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "wm20278h",
+      "slug": "massicot-polar",
+      "name": "Massicot Polar",
+      "category": "serigraphie-massicots",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Massicot-Electronique-90-cm.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "az838uo5",
+      "slug": "massicot-ideal",
+      "name": "Massicot Ideal",
+      "category": "serigraphie-massicots",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Massicot-Ideal_b40c2ie2.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "op872k66",
+      "slug": "personnalisation-casquette",
+      "name": "Personnalisation Casquette",
+      "category": "personnalisation",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Deco-Casquette-Brodee-2.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "l5rji059",
+      "slug": "traceur-roland-xr-640",
+      "name": "Traceur Roland XR 640",
+      "category": "traceurs",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/roland-XR-640_1.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "bhlrtm91",
+      "slug": "machine-tampographie-2-couleurs",
+      "name": "Machine Tampographie 2 Couleurs",
+      "category": "serigraphie-massicots",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Machine-TampograPhie-2-Couleurs-2.jpg"
+      ],
+      "vat": 0.18
+    },
+    {
+      "id": "62u4unjr",
+      "slug": "personnalisation-cle-usb",
+      "name": "Personnalisation Clé USB",
+      "category": "personnalisation",
+      "description": "Prix sur demande — contactez-nous pour un devis personnalisé.",
+      "price": null,
+      "currency": "FCFA",
+      "availability": "sur_demande",
+      "images": [
+        "/images/products/Gadget-Clees-USB-4.jpg"
+      ],
+      "vat": 0.18
+    }
+  ]
+}

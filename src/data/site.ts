@@ -1,3 +1,5 @@
+import { machineCategories } from "@/data/content/categories";
+
 export const siteConfig = {
   name: "Group C.I.E.B - UNIGRAF",
   legalName: "Group C.I.E.B - UNIGRAF S.A.R.L",
@@ -77,14 +79,21 @@ export const mainNavigation: NavItem[] = [
   {
     label: "Machines",
     href: "/machines",
+    children: machineCategories.sections.map((section) => ({
+      label: section.title,
+      href: `/machines/${section.slug}`,
+    })),
+  },
+  { label: "Catalogue", href: "/catalogue" },
+  {
+    label: "Contact",
+    href: "/contact",
     children: [
-      { label: "Offset", href: "/machines/offset" },
-      { label: "Traceurs", href: "/machines/traceurs" },
-      { label: "Copieurs", href: "/machines/copieurs" },
-      { label: "Consommables", href: "/machines/consommables" },
+      { label: "Coordonnées", href: "/contact" },
+      { label: "Demander un devis", href: "/devis" },
+      { label: "Demande SAV", href: "/sav" },
     ],
   },
-  { label: "Contact", href: "/contact" },
 ];
 
 export const services = [

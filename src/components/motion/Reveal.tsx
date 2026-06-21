@@ -82,7 +82,7 @@ export function Stagger({
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.15, margin: "-40px" }}
+      viewport={{ once: true, amount: "some", margin: "0px 0px -80px 0px" }}
       variants={variants}
     >
       {children}

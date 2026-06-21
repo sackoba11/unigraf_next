@@ -5,6 +5,7 @@ import {
   serviceCategories,
 } from "@/data/content/categories";
 import { siteConfig } from "@/data/site";
+import { getAllProducts } from "@/lib/products";
 
 const staticRoutes = [
   "",
@@ -12,9 +13,11 @@ const staticRoutes = [
   "/savoir-faire",
   "/contact",
   "/devis",
+  "/sav",
   "/services",
   "/realisations",
   "/machines",
+  "/catalogue",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -29,12 +32,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const machineRoutes = machineCategories.sections.map(
     (section) => `/machines/${section.slug}`,
   );
+  const productRoutes = getAllProducts().map(
+    (product) => `/catalogue/${product.slug}`,
+  );
 
   const routes = [
     ...staticRoutes,
     ...serviceRoutes,
     ...realisationRoutes,
     ...machineRoutes,
+    ...productRoutes,
   ];
 
   return routes.map((route) => ({
