@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { formatProductPrice, getCategoryLabel } from "@/lib/products";
+import { formatProductPrice, getCategoryLabel, getProductPrice } from "@/lib/products";
 import type { Product } from "@/types/product";
 
 type ProductCardProps = {
@@ -10,6 +10,7 @@ type ProductCardProps = {
 export function ProductCard({ product }: ProductCardProps) {
   const image = product.images[0];
   const priceLabel = formatProductPrice(product);
+  const purchasable = getProductPrice(product) !== null;
 
   return (
     <Link
@@ -33,6 +34,11 @@ export function ProductCard({ product }: ProductCardProps) {
         <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-brand-navy backdrop-blur-sm">
           {getCategoryLabel(product.category)}
         </span>
+        {purchasable && (
+          <span className="absolute right-3 top-3 rounded-full bg-brand-orange px-2.5 py-1 text-xs font-semibold text-white">
+            Achat en ligne
+          </span>
+        )}
       </div>
 
       <div className="flex flex-1 flex-col p-5">

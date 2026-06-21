@@ -1,4 +1,5 @@
 import catalogData from "@/data/catalog/products.json";
+import { onlinePrices } from "@/data/commerce";
 import type { Product, ProductCategory } from "@/types/product";
 
 type CatalogFile = {
@@ -35,11 +36,19 @@ export function searchProducts(query: string, category: ProductCategory | "all" 
   );
 }
 
+export function getProductPrice(product: Product): number | null {
+  const online = onlinePrices[product.id];
+  if (typeof online === "number" && online > 0) return online;
+  if (product.price !== null && product.price > 0) return product.price;
+  return null;
+}
+
 export function formatProductPrice(product: Product): string {
-  if (product.price === null || product.price <= 0) {
+  const price = getProductPrice(product);
+  if (price === null) {
     return "Prix sur demande";
   }
-  return `${product.price.toLocaleString("fr-FR")} ${product.currency}`;
+  return `${price.toLocaleString("fr-FR")} ${product.currency}`;
 }
 
 export function getCategoryLabel(category: ProductCategory): string {

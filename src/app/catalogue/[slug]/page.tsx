@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Reveal } from "@/components/motion/Reveal";
+import { ProductActions } from "@/components/catalog/ProductActions";
 import {
   formatProductPrice,
   getAllProducts,
   getCategoryLabel,
   getProductBySlug,
+  getProductPrice,
 } from "@/lib/products";
 import { createPageMetadata } from "@/lib/metadata";
 
@@ -43,6 +45,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product) notFound();
 
   const priceLabel = formatProductPrice(product);
+  const purchasable = getProductPrice(product) !== null;
   const quoteHref = `/devis?produit=${encodeURIComponent(product.name)}`;
   const galleryImages = product.images.map((src, index) => ({
     src,
@@ -93,20 +96,25 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   {getCategoryLabel(product.category)}
                 </p>
                 <p className="mt-4 text-2xl font-bold text-brand-navy">{priceLabel}</p>
-                <p className="mt-4 leading-relaxed text-slate-600">{product.description}</p>
+                <p className="mt-4 leading-relaxed text-slate-600">
+                  {purchasable
+                    ? "Disponible à l'achat en ligne ou sur devis."
+                    : product.description}
+                </p>
 
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Button href={quoteHref}>Demander un devis</Button>
-                  <Button href="/contact" variant="outline">
-                    Nous contacter
-                  </Button>
-                </div>
+                <ProductActions
+                  productId={product.id}
+                  productName={product.name}
+                  purchasable={purchasable}
+                />
 
                 <p className="mt-6 text-sm text-slate-500">
                   Réf. {product.id} — Disponibilité :{" "}
-                  {product.availability === "sur_demande"
-                    ? "Sur demande"
-                    : product.availability}
+                  {purchasable
+                    ? "En stock (en ligne)"
+                    : product.availability === "sur_demande"
+                      ? "Sur demande"
+                      : product.availability}
                 </p>
               </div>
             </Reveal>

@@ -10,6 +10,7 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
+import { CartButton } from "@/components/cart/CartButton";
 import { mainNavigation, siteConfig, type NavItem } from "@/data/site";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -309,6 +310,7 @@ export function Header() {
 
           {/* CTA + menu mobile */}
           <div className="ml-auto flex shrink-0 items-center gap-2">
+            <CartButton />
             <div className="hidden sm:block">
               <Button href="/devis" className="whitespace-nowrap px-4 py-2.5 text-sm">
                 Demander un devis

@@ -33,6 +33,8 @@ export function Footer() {
                 { href: "/a-propos", label: "Qui sommes-nous" },
                 { href: "/savoir-faire", label: "Savoir-faire" },
                 { href: "/contact", label: "Contact" },
+                { href: "/catalogue", label: "Catalogue" },
+                { href: "/panier", label: "Panier" },
                 { href: "/devis", label: "Demander un devis" },
                 { href: "/sav", label: "Demande SAV" },
               ].map((link) => (
