@@ -10,7 +10,7 @@ export function CartButton() {
     <Link
       href="/panier"
       className="relative inline-flex items-center justify-center rounded-lg border border-slate-200 p-2.5 text-slate-700 transition hover:border-brand-orange/40 hover:text-brand-orange"
-      aria-label={`Panier${count > 0 ? `, ${count} article${count > 1 ? "s" : ""}` : ""}`}
+      aria-label={`Panier${count > 0 ? `, ${count} produit${count > 1 ? "s" : ""}` : ""}`}
     >
       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
         <path

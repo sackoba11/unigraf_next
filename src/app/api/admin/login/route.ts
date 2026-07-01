@@ -13,7 +13,10 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         ok: false,
-        message: "Administration non configurée. Définissez ADMIN_PASSWORD dans .env.local",
+        message:
+          process.env.VERCEL === "1"
+            ? "Administration non configurée. Ajoutez ADMIN_PASSWORD dans Vercel → Settings → Environment Variables, puis redéployez."
+            : "Administration non configurée. Définissez ADMIN_PASSWORD dans .env.local",
       },
       { status: 503 },
     );
