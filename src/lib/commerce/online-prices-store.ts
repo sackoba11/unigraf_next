@@ -1,39 +1,26 @@
 import { onlinePrices as defaultOnlinePrices } from "@/data/commerce";
-import { prisma } from "@/lib/db/prisma";
-
-async function readOverrides(): Promise<Record<string, number>> {
-  const rows = await prisma.priceOverride.findMany();
-  const overrides: Record<string, number> = {};
-
-  for (const row of rows) {
-    overrides[row.productId] = row.price;
-  }
-
-  return overrides;
-}
+import { isDemoMode } from "@/lib/storage/demo-mode";
 
 export async function getMergedOnlinePrices(): Promise<Record<string, number>> {
-  const overrides = await readOverrides();
-  return { ...defaultOnlinePrices, ...overrides };
+  if (isDemoMode()) {
+    const store = await import("@/lib/commerce/online-prices-store-json");
+    return store.getMergedOnlinePrices(defaultOnlinePrices);
+  }
+
+  const store = await import("@/lib/commerce/online-prices-store-db");
+  return store.getMergedOnlinePrices(defaultOnlinePrices);
 }
 
 export async function saveOnlinePriceOverrides(
   prices: Record<string, number>,
 ): Promise<void> {
-  const sanitized: Record<string, number> = {};
-
-  for (const [productId, value] of Object.entries(prices)) {
-    if (typeof value === "number" && value > 0) {
-      sanitized[productId] = Math.round(value);
-    }
+  if (isDemoMode()) {
+    const store = await import("@/lib/commerce/online-prices-store-json");
+    return store.saveOnlinePriceOverrides(prices);
   }
 
-  await prisma.$transaction([
-    prisma.priceOverride.deleteMany(),
-    ...Object.entries(sanitized).map(([productId, price]) =>
-      prisma.priceOverride.create({ data: { productId, price } }),
-    ),
-  ]);
+  const store = await import("@/lib/commerce/online-prices-store-db");
+  return store.saveOnlinePriceOverrides(prices);
 }
 
 export { defaultOnlinePrices };

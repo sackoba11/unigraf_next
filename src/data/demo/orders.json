@@ -1,0 +1,148 @@
+[
+  {
+    "id": "260616-A7K2",
+    "createdAt": "2026-06-16T09:15:00.000Z",
+    "status": "paid",
+    "paymentMethod": "mobile_money",
+    "shippingMethod": "express",
+    "customer": {
+      "firstName": "Aminata",
+      "lastName": "Koné",
+      "email": "aminata.kone@exemple.ci",
+      "phone": "+225 07 12 34 56 78",
+      "address": "Rue des Jardins, Cocody Angré",
+      "postalCode": "00225",
+      "city": "Abidjan",
+      "region": "Abidjan",
+      "note": "Livraison en matinée si possible."
+    },
+    "lines": [
+      {
+        "productId": "353pva4g",
+        "slug": "stock-cartons-rame",
+        "name": "Stock Cartons Rame",
+        "unitPrice": 25000,
+        "quantity": 2,
+        "vatRate": 0.18,
+        "image": "/images/products/3584H_110211_70694.jpg"
+      },
+      {
+        "productId": "0s1e300n",
+        "slug": "toner-tous-modeles-canon",
+        "name": "Toner tous modeles Canon",
+        "unitPrice": 35000,
+        "quantity": 1,
+        "vatRate": 0.18,
+        "image": "/images/products/Tonnr-IR5000.gif"
+      }
+    ],
+    "subtotal": 85000,
+    "shippingCost": 10000,
+    "vatAmount": 15300,
+    "total": 110300,
+    "currency": "FCFA",
+    "paymentReference": "DEMO-CINETPAY-001"
+  },
+  {
+    "id": "260615-B3M9",
+    "createdAt": "2026-06-15T14:30:00.000Z",
+    "status": "awaiting_transfer",
+    "paymentMethod": "bank_transfer",
+    "shippingMethod": "poste",
+    "customer": {
+      "firstName": "Ibrahim",
+      "lastName": "Traoré",
+      "email": "i.traore@entreprise.ci",
+      "phone": "+225 05 98 76 54 32",
+      "address": "Zone industrielle, Yopougon",
+      "postalCode": "00225",
+      "city": "Abidjan",
+      "region": "Abidjan",
+      "note": ""
+    },
+    "lines": [
+      {
+        "productId": "12kor0n7",
+        "slug": "cartouche-traceur-hp-800-ps",
+        "name": "Cartouche Traceur HP 800 PS",
+        "unitPrice": 85000,
+        "quantity": 1,
+        "vatRate": 0.18,
+        "image": "/images/products/Cartouche-Traceur-PH-800.Couleur.gif"
+      }
+    ],
+    "subtotal": 85000,
+    "shippingCost": 0,
+    "vatAmount": 15300,
+    "total": 100300,
+    "currency": "FCFA"
+  },
+  {
+    "id": "260614-C8P1",
+    "createdAt": "2026-06-14T11:00:00.000Z",
+    "status": "processing",
+    "paymentMethod": "mobile_money",
+    "shippingMethod": "poste",
+    "customer": {
+      "firstName": "Marie",
+      "lastName": "Bamba",
+      "email": "marie.bamba@exemple.ci",
+      "phone": "+225 01 23 45 67 89",
+      "address": "Boulevard de la République",
+      "postalCode": "00225",
+      "city": "Bouaké",
+      "region": "Vallée du Bandama",
+      "note": "Commande pour imprimerie partenaire."
+    },
+    "lines": [
+      {
+        "productId": "z42l4jh6",
+        "slug": "encre-risograph-gr-1700",
+        "name": "Encre Risograph GR 1700",
+        "unitPrice": 45000,
+        "quantity": 3,
+        "vatRate": 0.18,
+        "image": "/images/products/Encre-Risograph-GR-1700.jpg"
+      }
+    ],
+    "subtotal": 135000,
+    "shippingCost": 0,
+    "vatAmount": 24300,
+    "total": 159300,
+    "currency": "FCFA"
+  },
+  {
+    "id": "260613-D2R5",
+    "createdAt": "2026-06-13T16:45:00.000Z",
+    "status": "pending_payment",
+    "paymentMethod": "mobile_money",
+    "shippingMethod": "express",
+    "customer": {
+      "firstName": "Kouadio",
+      "lastName": "Yao",
+      "email": "k.yao@exemple.ci",
+      "phone": "+225 07 55 44 33 22",
+      "address": "Plateau, avenue Chardy",
+      "postalCode": "00225",
+      "city": "Abidjan",
+      "region": "Abidjan",
+      "note": ""
+    },
+    "lines": [
+      {
+        "productId": "3ku5hzem",
+        "slug": "encre-offset-et-serigraphie",
+        "name": "Encre Offset et Serigraphie",
+        "unitPrice": 28000,
+        "quantity": 2,
+        "vatRate": 0.18,
+        "image": "/images/products/Boite-d-encre-Offset-1.jpg"
+      }
+    ],
+    "subtotal": 56000,
+    "shippingCost": 10000,
+    "vatAmount": 10080,
+    "total": 76080,
+    "currency": "FCFA"
+  }
+]

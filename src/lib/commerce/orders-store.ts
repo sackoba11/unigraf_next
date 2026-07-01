@@ -1,48 +1,6 @@
-import { prisma } from "@/lib/db/prisma";
-import type {
-  Order,
-  OrderCustomer,
-  OrderLine,
-  OrderStatus,
-  PaymentMethodId,
-  ShippingMethodId,
-} from "@/types/order";
-
-type DbOrder = {
-  id: string;
-  createdAt: Date;
-  status: string;
-  paymentMethod: string;
-  shippingMethod: string;
-  customer: unknown;
-  lines: unknown;
-  subtotal: number;
-  shippingCost: number;
-  vatAmount: number;
-  total: number;
-  currency: string;
-  paymentUrl: string | null;
-  paymentReference: string | null;
-};
-
-function mapDbOrderToOrder(row: DbOrder): Order {
-  return {
-    id: row.id,
-    createdAt: row.createdAt.toISOString(),
-    status: row.status as OrderStatus,
-    paymentMethod: row.paymentMethod as PaymentMethodId,
-    shippingMethod: row.shippingMethod as ShippingMethodId,
-    customer: row.customer as OrderCustomer,
-    lines: row.lines as OrderLine[],
-    subtotal: row.subtotal,
-    shippingCost: row.shippingCost,
-    vatAmount: row.vatAmount,
-    total: row.total,
-    currency: row.currency,
-    paymentUrl: row.paymentUrl ?? undefined,
-    paymentReference: row.paymentReference ?? undefined,
-  };
-}
+import { onlinePrices as defaultOnlinePrices } from "@/data/commerce";
+import { isDemoMode } from "@/lib/storage/demo-mode";
+import type { Order } from "@/types/order";
 
 export function generateOrderNumber(date = new Date()): string {
   const yy = String(date.getFullYear()).slice(-2);
@@ -53,29 +11,23 @@ export function generateOrderNumber(date = new Date()): string {
 }
 
 export async function saveOrder(order: Order): Promise<void> {
-  await prisma.order.create({
-    data: {
-      id: order.id,
-      createdAt: new Date(order.createdAt),
-      status: order.status,
-      paymentMethod: order.paymentMethod,
-      shippingMethod: order.shippingMethod,
-      customer: order.customer,
-      lines: order.lines,
-      subtotal: order.subtotal,
-      shippingCost: order.shippingCost,
-      vatAmount: order.vatAmount,
-      total: order.total,
-      currency: order.currency,
-      paymentUrl: order.paymentUrl ?? null,
-      paymentReference: order.paymentReference ?? null,
-    },
-  });
+  if (isDemoMode()) {
+    const store = await import("@/lib/commerce/orders-store-json");
+    return store.saveOrder(order);
+  }
+
+  const store = await import("@/lib/commerce/orders-store-db");
+  return store.saveOrder(order);
 }
 
 export async function getOrder(orderId: string): Promise<Order | null> {
-  const row = await prisma.order.findUnique({ where: { id: orderId } });
-  return row ? mapDbOrderToOrder(row) : null;
+  if (isDemoMode()) {
+    const store = await import("@/lib/commerce/orders-store-json");
+    return store.getOrder(orderId);
+  }
+
+  const store = await import("@/lib/commerce/orders-store-db");
+  return store.getOrder(orderId);
 }
 
 export async function updateOrderStatus(
@@ -83,47 +35,33 @@ export async function updateOrderStatus(
   status: Order["status"],
   extra?: Partial<Order>,
 ): Promise<Order | null> {
-  const existing = await getOrder(orderId);
-  if (!existing) return null;
+  if (isDemoMode()) {
+    const store = await import("@/lib/commerce/orders-store-json");
+    return store.updateOrderStatus(orderId, status, extra);
+  }
 
-  const updated: Order = { ...existing, ...extra, status };
-
-  const row = await prisma.order.update({
-    where: { id: orderId },
-    data: {
-      status: updated.status,
-      paymentMethod: updated.paymentMethod,
-      shippingMethod: updated.shippingMethod,
-      customer: updated.customer,
-      lines: updated.lines,
-      subtotal: updated.subtotal,
-      shippingCost: updated.shippingCost,
-      vatAmount: updated.vatAmount,
-      total: updated.total,
-      currency: updated.currency,
-      paymentUrl: updated.paymentUrl ?? null,
-      paymentReference: updated.paymentReference ?? null,
-    },
-  });
-
-  return mapDbOrderToOrder(row);
+  const store = await import("@/lib/commerce/orders-store-db");
+  return store.updateOrderStatus(orderId, status, extra);
 }
 
 export async function listOrders(): Promise<Order[]> {
-  const rows = await prisma.order.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  if (isDemoMode()) {
+    const store = await import("@/lib/commerce/orders-store-json");
+    return store.listOrders();
+  }
 
-  return rows.map(mapDbOrderToOrder);
+  const store = await import("@/lib/commerce/orders-store-db");
+  return store.listOrders();
 }
 
 export async function deleteOrder(orderId: string): Promise<boolean> {
-  try {
-    await prisma.order.delete({ where: { id: orderId } });
-    return true;
-  } catch {
-    return false;
+  if (isDemoMode()) {
+    const store = await import("@/lib/commerce/orders-store-json");
+    return store.deleteOrder(orderId);
   }
+
+  const store = await import("@/lib/commerce/orders-store-db");
+  return store.deleteOrder(orderId);
 }
 
 export function getOrderStats(orders: Order[]) {
